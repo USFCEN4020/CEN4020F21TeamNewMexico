@@ -29,7 +29,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS jobs
 
 # make this relatable to the friends
 # cursor.execute('''CREATE TABLE IF NOT EXISTS friends
-#                 (username)''')
+#                 (username)''') 
 
 
 # --------------------------GO TO PAGE---------------------------
