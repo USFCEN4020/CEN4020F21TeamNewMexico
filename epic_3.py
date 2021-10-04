@@ -1,4 +1,4 @@
-# NOTE
+# NOTE 
 
 # 1) make sure to separate EVERY individual page in a different function
 # 2) Add the new page created to the previous() with the according string and function
