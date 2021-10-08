@@ -97,33 +97,60 @@ def mainPage():
     elif pagesVisited[-1] != "mainpage":
         pagesVisited.append("mainpage")
     menu.print_options_menu()
-    selection = user_input(6)
+    selection = user_input(7)
 
     # added code
     # sub_selection = None
 
-    # goTo jobs
+    
     if selection == 1:
+        profilePage()
+
+    # goTo jobs
+    elif selection == 2:
         jobPage()
 
     # goTo friends
-    elif selection == 2:
+    elif selection == 3:
         friendsPage()
 
     # goTo skills
-    elif selection == 3:
+    elif selection == 4:
         skillsPage()
 
-    elif selection == 4:
+    #links
+    elif selection == 5:
         usefulLinksPage()
 
-    elif selection == 5:
+    elif selection == 6:
         importantLinksPage()
 
     elif selection == 6:
         homepage()
 
+#--------------profile page********
+def profilePage():
+    if pagesVisited[-1] != "profile":
+        pagesVisited.append("profile")
+    menu.profileMenu()
+    selection = user_input(4)
 
+    if selection == 1:
+        aboutProfilePage(username)
+    elif selection == 2
+        experiencePage()
+    elif selection == 3:
+        educationPage()
+    elif selection == 4:
+        pv.previous()
+      
+def aboutProfilePage()
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    tmpcursor.execute("SELECT * FROM settings WHERE username = ?", (uName,))
+    settings = tmpcursor.fetchone()
+    print("")
+    
 #SKILL PAGE
 # FUNCTIONS TO IMPLEMENT LATER
 def pythonPage():
@@ -506,7 +533,7 @@ def loginControl(uName):
                           (my_email, my_sms, my_ads, my_language, reg.username))
         tmpcon.commit()
 
-        print("Changes were successfully")
+        print("\nChanges were successfully")
 
     elif selection == 2:
         pv.previous()
