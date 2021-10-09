@@ -1,11 +1,12 @@
 
 def print_options_menu():
-    print("\n1. Job/Internship Search"
-          "\n2. Find someone you know"
-          "\n3. Learn a new skill"
-          "\n4. Useful Links"
-          "\n5. InCollege Important Links"
-          "\n6. Log Out")
+    print("\n1. Create/Modify Profile"
+          "\n2. Job/Internship Search"
+          "\n3. Find someone you know"
+          "\n4. Learn a new skill"
+          "\n5. Useful Links"
+          "\n6. InCollege Important Links"
+          "\n7. Log Out")
 
 
 def print_skills_menu():
@@ -70,3 +71,20 @@ def guestControlMenu():
           "\nads -> ON"
           "\nLanguage -> English"
           "\nType 1 to Go Back")
+
+def profileMenu():
+    print("\nWould you like to modify your Profile\n"
+          "\n1. About"
+          "\n2. Experience"
+          "\n3. Education"
+          "\n4. View Profile"
+          "\n5. Go back")
+
+def profilejobMenu():
+   print("--------------EXPERIENCE SECTION--------->"
+          "\nJOB 1 Title : {}"
+          "\nWho is/was the employer: {}"
+          "\nDate Started: {}"
+          "\nDate ended: {}"
+          "\nLocation: {}"
+          "\nResponsabilities {}")

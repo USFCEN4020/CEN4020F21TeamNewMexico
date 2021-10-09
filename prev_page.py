@@ -1,5 +1,5 @@
 import pages as page
-
+import profile as pf
 def previous():
     # pull up previous
     page.pagesVisited.pop()
@@ -101,3 +101,15 @@ def previous():
 
     elif page.pagesVisited[-1] == "developer":
         page.devPage()
+
+    elif page.pagesVisited[-1] == "profile":
+        page.profilePage()
+    
+    # elif page.pagesVisited[-1] == "aboutProfile":
+    #     page.profilePage()
+
+    # elif page.pagesVisited[-1] == "experience":
+    #     page.profilePage()
+    # elif page.pagesVisited[-1] == " view-profile":
+    #      pf.viewProfile()
+       

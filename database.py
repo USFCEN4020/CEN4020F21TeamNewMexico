@@ -16,6 +16,18 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS jobs
 cursor.execute('''CREATE TABLE IF NOT EXISTS settings
                  (username, email, SMS, ads, language)''')
 
+#handling PROFILE                           
+cursor.execute('''CREATE TABLE IF NOT EXISTS about
+                 (username, title, major, university, description)''')
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS experience
+                 (username, job_title, employer , date_start, date_finish, location , e_description)''')
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS education
+                 (username, school , degree , years)''')                                  
+
+
+
 
 # make this relatable to the friends
 # cursor.execute('''CREATE TABLE IF NOT EXISTS friends

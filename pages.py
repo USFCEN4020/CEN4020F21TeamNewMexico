@@ -4,6 +4,7 @@ import menus as menu
 import jobs as job
 import friends as friend
 import database as db
+import profile as pf
 
 # NOTE 
 
@@ -133,23 +134,20 @@ def profilePage():
     if pagesVisited[-1] != "profile":
         pagesVisited.append("profile")
     menu.profileMenu()
-    selection = user_input(4)
+    selection = user_input(5)
 
     if selection == 1:
-        aboutProfilePage(username)
-    elif selection == 2
-        experiencePage()
+        pf.aboutProfilePage(reg.username)
+    elif selection == 2:
+        pf.experiencePage(reg.username)
     elif selection == 3:
-        educationPage()
+        pf.educationPage(reg.username)
     elif selection == 4:
+        pf.viewProfilePage(reg.username)
+    elif selection == 5:
         pv.previous()
       
-def aboutProfilePage()
-    tmpcon = db.sqlite3.connect('inCollege.db')
-    tmpcursor = tmpcon.cursor()
-    tmpcursor.execute("SELECT * FROM settings WHERE username = ?", (uName,))
-    settings = tmpcursor.fetchone()
-    print("")
+
     
 #SKILL PAGE
 # FUNCTIONS TO IMPLEMENT LATER
@@ -532,7 +530,7 @@ def loginControl(uName):
         tmpcursor.execute("UPDATE settings SET email = ?, SMS = ? , ads = ?, language = ? where username = ?",
                           (my_email, my_sms, my_ads, my_language, reg.username))
         tmpcon.commit()
-
+        tmpcon.close()
         print("\nChanges were successfully")
 
     elif selection == 2:

@@ -1,10 +1,6 @@
 import database as db
 import pages as pg
-import friends
-import jobs
-import menus
-import registration
-import prev_page
+
 
 # *********************************DEVELOPERS NOTE***************************************************************
 # *******************Please follow the scheme of  for example "usefullinksPage() is set up***************
