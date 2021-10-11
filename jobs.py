@@ -1,4 +1,3 @@
-
 import registration as reg
 import database as db
 import pages as page
