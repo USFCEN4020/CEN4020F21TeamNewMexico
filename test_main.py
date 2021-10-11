@@ -2,6 +2,9 @@ import sqlite3
 import pytest
 import main
 import registration as reg
+import jobs as job
+import pages as page
+import friends as f
 from io import StringIO
 
 '''For testing purpose the Database been fill with 3 users
@@ -38,13 +41,13 @@ def test_is_good_password():
     assert reg.is_good_password("Cat_1") == False
 
 def test_check_for_account():
-    assert main.check_for_account("user1", "Password_1") == True
-    assert main.check_for_account("john", "smith") == False
-    assert main.check_for_account("user3", "Jorge_06") == False
+    assert reg.check_for_account("user1", "Password_1") == True
+    assert reg.check_for_account("john", "smith") == False
+    assert reg.check_for_account("user3", "Jorge_06") == False
 
 def test_check_for_username():
-    assert main.check_for_username("Jorge") == False
-    assert main.check_for_username("user1") == True
+    assert reg.check_for_username("Jorge") == False
+    assert reg.check_for_username("user1") == True
 
 def test_space_for_signup():
     conn = sqlite3.connect('inCollege.db')
@@ -52,9 +55,9 @@ def test_space_for_signup():
     curs = cursor.execute('SELECT * FROM users;')
     #getting from database and comparing if less than 5 user.
     if len(curs.fetchall()) < 5:
-        assert main.space_for_signup() == True
+        assert reg.space_for_signup() == True
     else:
-        assert main.space_for_signup() == False
+        assert reg.space_for_signup() == False
 
 #--------------------------------------------------------------------------------------
 #                           Week 2 Tests
@@ -65,29 +68,29 @@ def test_space_for_job():
     curs = cursor.execute('SELECT * FROM jobs;')
     #getting from database and comparing if less than 5 jobs.
     if len(curs.fetchall()) < 5:
-        assert main.space_for_job() == True
+        assert job.space_for_job() == True
     else:
-        assert main.space_for_job() == False
+        assert job.space_for_job() == False
 
 def test_find_friend_account():
-    assert main.find_friend_account("Jon", "Snow") == True
-    assert main.find_friend_account("Will", "Smith") == False
+    assert f.find_friend_account("Jon", "Snow") == True
+    assert f.find_friend_account("Will", "Smith") == False
 
 def test_post_job():
     conn = sqlite3.connect('inCollege.db')
     cursor = conn.cursor()
     curs = cursor.execute('SELECT * FROM jobs;')
     if len(curs.fetchall()) < 5:
-        assert main.post_job('test1', 'test2', 'test3', 'test4', 'test5') == True
+        assert job.post_job('test1', 'test2', 'test3', 'test4', 'test5') == True
     else:
-        assert main.post_job('test1', 'test2', 'test3', 'test4', 'test5') == False
+        assert job.post_job('test1', 'test2', 'test3', 'test4', 'test5') == False
 
 def test_fetch_job_numbers():
     conn = sqlite3.connect('inCollege.db')
     cursor = conn.cursor()
     curs = cursor.execute('SELECT * FROM jobs;')
     number = len(cursor.fetchall())
-    assert main.fetch_job_numbers() == number
+    assert job.fetch_job_numbers() == number
 
 #--------------------------------------------------------------------------------------
 #                           Week 3 Tests
@@ -95,24 +98,24 @@ def test_fetch_job_numbers():
 
 def test_on_off_mail(monkeypatch):
     monkeypatch.setattr('sys.stdin', StringIO('1\n'))
-    assert main.on_off_mail() == "ON"
+    assert page.on_off_mail() == "ON"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
-    assert main.on_off_mail() == "OFF"
+    assert page.on_off_mail() == "OFF"
 
 def test_on_off_sms(monkeypatch):
     monkeypatch.setattr('sys.stdin', StringIO('1\n'))
-    assert main.on_off_sms() == "ON"
+    assert page.on_off_sms() == "ON"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
-    assert main.on_off_sms() == "OFF"
+    assert page.on_off_sms() == "OFF"
     
 def test_on_off_ads(monkeypatch):
     monkeypatch.setattr('sys.stdin', StringIO('1\n'))
-    assert main.on_off_ads() == "ON"
+    assert page.on_off_ads() == "ON"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
-    assert main.on_off_ads() == "OFF"
+    assert page.on_off_ads() == "OFF"
 
 def test_language(monkeypatch):
     monkeypatch.setattr('sys.stdin', StringIO('1\n'))
-    assert main.language() == "English"
+    assert page.language() == "English"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
-    assert main.language() == "Spanish"
+    assert page.language() == "Spanish"
