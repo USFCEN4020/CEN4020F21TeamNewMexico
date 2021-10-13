@@ -97,12 +97,19 @@ def mainPage():
         pagesVisited.append("mainpage")
     elif pagesVisited[-1] != "mainpage":
         pagesVisited.append("mainpage")
+
+    #prints pending friends
+    if friend.pending_friend(reg.username) == True:
+        print("You have a pending friend request")
+    else:
+        print("self test no friend request")
+
+
     menu.print_options_menu()
     selection = user_input(7)
 
     # added code
     # sub_selection = None
-
     
     if selection == 1:
         profilePage()
