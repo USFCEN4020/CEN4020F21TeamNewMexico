@@ -32,7 +32,7 @@ def space_for_signup():  # tested
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     curs = tmpcursor.execute('SELECT * FROM users;')
-    if len(curs.fetchall()) < 5:
+    if len(curs.fetchall()) < 10:
         tmpcon.close()
         return True
     else:

@@ -27,9 +27,10 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS education
                  (username, school , degree , years)''')                                  
 
 
-
-
-# make this relatable to the friends
-# cursor.execute('''CREATE TABLE IF NOT EXISTS friends
-#                 (username)''')
+# how i see it
+# each user needs their potential friend added as a friends_user and set to "pending" for status
+# if accepted both entries on the table should be converted to "accepted"
+# if declined both entires should be deleted from table
+cursor.execute('''CREATE TABLE IF NOT EXISTS friends
+                 (username, friends_user, status)''')
 

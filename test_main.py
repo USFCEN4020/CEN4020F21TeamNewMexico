@@ -54,7 +54,7 @@ def test_space_for_signup():
     cursor = conn.cursor()
     curs = cursor.execute('SELECT * FROM users;')
     #getting from database and comparing if less than 5 user.
-    if len(curs.fetchall()) < 5:
+    if len(curs.fetchall()) < 10:
         assert reg.space_for_signup() == True
     else:
         assert reg.space_for_signup() == False
