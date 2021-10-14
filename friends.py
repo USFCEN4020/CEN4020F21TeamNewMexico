@@ -14,6 +14,8 @@ def find_friend_account(first, last):  # tested
 
 #adds friends
 #user1 sends it to user2
+
+#trevor fix this, everyone should be user1 if they have a friend--------------------------------
 def friend_request(user1, user_sent):
 
     #just incase, users should be checked before entering
@@ -50,3 +52,21 @@ def pending_friend(username):
     else:
         tmpcon.close()
         return True
+
+#prints network for show my network
+def print_network(username):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    curs = tmpcursor.execute("SELECT friends_user FROM friends WHERE status = 'accepted' AND username = '{}'".format(username))
+    if str(curs.fetchone()) == "None":
+        tmpcon.close()
+        print("No Friends")
+        return False
+    
+    count = 1
+    for row in tmpcursor.execute("SELECT friends_user FROM friends WHERE status = 'accepted' AND username = '{}'".format(username)):
+        print(str(count) + ". " + str(row)[2:-3])
+        count += 1
+    
+    tmpcon.close()
+    return

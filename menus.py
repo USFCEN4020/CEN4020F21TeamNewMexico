@@ -3,10 +3,12 @@ def print_options_menu():
     print("\n1. Create/Modify Profile"
           "\n2. Job/Internship Search"
           "\n3. Find someone you know"
-          "\n4. Learn a new skill"
-          "\n5. Useful Links"
-          "\n6. InCollege Important Links"
-          "\n7. Log Out")
+          "\n4. View pending friend requests"
+          "\n5. Show Network"
+          "\n6. Learn a new skill"
+          "\n7. Useful Links"
+          "\n8. InCollege Important Links"
+          "\n9. Log Out")
 
 
 def print_skills_menu():
