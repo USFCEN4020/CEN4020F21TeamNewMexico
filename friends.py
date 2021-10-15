@@ -33,8 +33,8 @@ def friend_request(user1, user_sent):
         return
 
     #both friends will have friend
-    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, sent&pending)", (user1, user_sent))
-    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, pending)", (user_sent, user1)) 
+    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, 'sent&pending')", (user1, user_sent))
+    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, 'pending')", (user_sent, user1)) 
     print("friend request sent")
     tmpcon.commit()
     tmpcon.close()
@@ -43,7 +43,7 @@ def friend_request(user1, user_sent):
 def pending_friend(username):
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
-    curs = tmpcursor.execute("SELECT * FROM friends WHERE friends_user = '{}' AND status = 'pending'".format(username))
+    curs = tmpcursor.execute("SELECT * FROM friends WHERE username = '{}' AND status = 'pending'".format(username))
     if str(curs.fetchone()) == "None":
         tmpcon.close()
         return False
