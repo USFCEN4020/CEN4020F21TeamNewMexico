@@ -1,5 +1,7 @@
 import sqlite3 
 import pytest
+
+import friends
 import main
 import registration as reg
 import jobs as job
@@ -119,8 +121,9 @@ def test_language(monkeypatch):
     assert page.language() == "English"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
     assert page.language() == "Spanish"
+
 #--------------------------------------------------------------------------------------
-#                           Week 5 Tests
+#                           Week 4 Tests
 #--------------------------------------------------------------------------------------
 
 def test_pending_friend():
