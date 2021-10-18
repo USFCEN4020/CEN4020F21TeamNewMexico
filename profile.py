@@ -104,7 +104,7 @@ def educationPage(uName):
     pv.previous()
 
 #-------------------------view profile--------------
-def viewProfilePage(uName):
+def viewProfilePage(uName, view = None):
     if pg.pagesVisited[-1] != "view-profile":
         pg.pagesVisited.append("view-profile")
     
@@ -113,8 +113,12 @@ def viewProfilePage(uName):
     
     tmpcursor.execute("SELECT * FROM about WHERE username = ?", (uName,))
     about = tmpcursor.fetchone()
+
     
-    if about == None:
+    if view == True and about == None:
+        print("User did not complete their profile.")
+        return
+    elif about == None:
         print ("\n YOU have Not yet completed the About section of your profile. Please review your ABOUT Section")
     else:    
         print("\nPROFILE BY {}: "

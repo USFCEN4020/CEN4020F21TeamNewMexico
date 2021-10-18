@@ -91,57 +91,6 @@ def homepage():
         pass
 
 # ---------------------------------MAINPAGE--------------------------------------------------------------
-def view_pending_requests():
-    result = db.cursor.execute("SELECT firstName, lastName, username FROM friends NATURAL JOIN users WHERE friends_user = '{}'".format(reg.username)).fetchall()
-           
-    while (True):
-        count = 1
-        if len(result) == 0:
-            print("No requests pending")
-            homepage()
-        else:
-            for i in result:
-                print("{}. {} {} has sent you a frined request.".format(count, i[0], i[1]))
-                count += 1
-    
-            print("\n\nEnter 0 to go back to main page.\n")
-            selection = input("Please enter the number of the user to accept request: ")
-            if int(selection) == 0:
-                mainPage()
-            if int(selection) < 1 or int(selection) > len(result):
-                continue
-            else:
-                break
-
-    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(result[int(selection) - 1][2]))
-    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(reg.username))
-    db.con.commit()
-    
-def show_network():
-    result = db.cursor.execute("SELECT firstName, lastName, username FROM friends NATURAL JOIN users WHERE friends_user = '{}'".format(reg.username)).fetchall()
-    if len(result) == 0:
-        print("You have no connections yet.")
-    for i in result:
-        count = 1
-        print("{}. {} {} Username: {}".format(count, i[0], i[1], i[2]))
-        count += 1
-    while(True):
-        selection = input("Please enter line number to view connection options: ")
-        if int(selection) < 1 or int(selection) > len(result):
-            print("Invalid entry please re-enter.")
-            continue
-        else:
-            freindConnection = result[int(selection) - 1][2]
-            print("1. View user's profle\n" +
-                  "2. Disconnect from friend\n\n")
-            selection = input("Enter Selection: ")
-            #************************* continue code tomorrow
-            break
-    
-
-        
-
-
 def mainPage():
     if not pagesVisited:
         pagesVisited.append("mainpage")
@@ -172,14 +121,12 @@ def mainPage():
     elif selection == 3:
         friendsPage()
 
-    # goTo skills
     elif selection == 4:
         view_pending_requests()
 
-    #links
     elif selection == 5:
         show_network()
-
+# goTo skills
     elif selection == 6:
         skillsPage()
 
@@ -192,6 +139,89 @@ def mainPage():
     elif selection == 9:
         homepage()
 
+# ---------------------------peding------------
+def view_pending_requests():
+               
+    while (True):
+        result = db.cursor.execute("SELECT status, friends_user FROM friends NATURAL JOIN users WHERE username = '{}'".format(reg.username)).fetchall()
+        pending = db.cursor.execute("SELECT * FROM friends WHERE status = 'pending' and username = '{}'".format(reg.username)).fetchall()
+        
+        count = 1;
+        if len(pending) == 0 :
+            print("\nNo requests pending")
+            mainPage()
+        else:
+            for i in result:
+                
+                temp = result
+                if i[0] == "pending":
+                    name = db.cursor.execute("SELECT * FROM users WHERE username = '{}'".format(i[1])).fetchall()
+                    print("{}. {} {} has sent you a frined request.".format(count, name[0][0], name[0][1]))
+                    
+                    count += 1
+                   
+    
+        print("\n\nEnter 0 to go back to main page.\n")
+        selection = input("\nPlease enter the number of the user to accept request: ")
+        if int(selection) == 0:
+            mainPage()
+        if int(selection) < 1 or int(selection) > len(result):
+            continue;
+        else:
+            break;
+      
+    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(result[int(selection) - 1][2]))
+    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(reg.username))
+    db.con.commit()
+    mainPage()
+
+
+def show_network():
+    connections = None
+    result = db.cursor.execute("SELECT firstName, lastName, username, status FROM friends NATURAL JOIN users WHERE friends_user = '{}'".format(reg.username)).fetchall()
+    if len(result) == 0:
+        print("\nYou have no connections yet.")
+        conections = False
+    
+    while(True):
+      count = 1   
+      for i in result:
+      
+        print("{}. {} {} Username: {} Status: {}" .format(count, i[0], i[1], i[2], i[3]))
+        count += 1
+        connections = True
+    
+      selection = input("\nPlease enter line number to view connection options :")
+      print("\n0. GO BACK\n")
+      if int (selection) == 0:
+        mainPage()
+        
+      if int(selection) < 1 or int(selection) > len(result):
+        print("\nInvalid entry please re-enter.")
+        continue
+      else:
+        freindConnection = result[int(selection) - 1][2]
+        
+        print("1. View user's profle\n"
+              "2. Disconnect from friend\n"
+              "0. Go back\n")
+        print("\nEnter Selection: ")
+        selection = user_input(2)
+        if int(selection) == 1:
+            pf.viewProfilePage(freindConnection, True)
+        elif int(selection) == 2:
+            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(reg.username, freindConnection))
+            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(freindConnection, reg.username))
+            db.con.commit()
+            mainPage()
+        elif int(selection) == 0:
+            mainPage()
+
+        break
+  
+
+
+        
 #--------------profile page********
 def profilePage():
     if pagesVisited[-1] != "profile":
@@ -277,12 +307,13 @@ def friendsPage():
     search_type = None
     print("Student Search\n"+
           "Please select on of the following\n\n")
+    
     print("1. Search by last name.\n" +
           "2. Search by major.\n" + 
           "3. Search by University\n" +
           "4. Go back\n\n")
 
-    selection = input("Selection: ")
+    selection = user_input(4)
 
     if int(selection) == 1:
         search_type = "lastName"
@@ -291,16 +322,14 @@ def friendsPage():
     elif int(selection) == 3:
         search_type = "university"
     elif int(selection) == 4:
-        pv.previous()
-    else:
-        print("Invalid entry please re-enter value from the displayed menu")
-        friendsPage()
+        mainPage()
+    
     search = input("Enter search value: ")
 
     if int(selection) != 1:
-        result = db.cursor.execute("SELECT firstName, lastName, username FROM users NATURAL JOIN about where {} = '{}'".format(search_type, search)).fetchall()
+        result = db.cursor.execute("SELECT firstName, lastName, username FROM users NATURAL JOIN about where {} = '{}' COLLATE NOCASE".format(search_type, search)).fetchall()
     else:
-        result = db.cursor.execute("SELECT firstName, lastName, username FROM users WHERE {} = '{}'".format(search_type, search)).fetchall()
+        result = db.cursor.execute("SELECT firstName, lastName, username FROM users WHERE {} = '{}' COLLATE NOCASE".format(search_type, search)).fetchall()
     friendConnection  = None
     while (True):
         count = 1;
@@ -322,11 +351,9 @@ def friendsPage():
                 friendConnection = result[int(selection) - 1][2]
                 break;
     friend.friend_request(reg.username, friendConnection)
-    pv.previous()
+    mainPage()
         
     
-
-
 def jobPage():
     if pagesVisited[-1] != "jobs":
         pagesVisited.append("jobs")

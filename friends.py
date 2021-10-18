@@ -14,8 +14,6 @@ def find_friend_account(first, last):  # tested
 
 #adds friends
 #user1 sends it to user2
-
-#trevor fix this, everyone should be user1 if they have a friend--------------------------------
 def friend_request(user1, user_sent):
 
     #just incase, users should be checked before entering
@@ -35,8 +33,8 @@ def friend_request(user1, user_sent):
         return
 
     #both friends will have friend
-    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, sent&pending)", (user1, user_sent))
-    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, pending)", (user_sent, user1)) 
+    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, 'sent&pending')", (user1, user_sent))
+    tmpcursor.execute("INSERT INTO friends VALUES (?, ?, 'pending')", (user_sent, user1)) 
     print("friend request sent")
     tmpcon.commit()
     tmpcon.close()
@@ -45,28 +43,10 @@ def friend_request(user1, user_sent):
 def pending_friend(username):
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
-    curs = tmpcursor.execute("SELECT * FROM friends WHERE friends_user = '{}' AND status = 'pending'".format(username))
+    curs = tmpcursor.execute("SELECT * FROM friends WHERE username = '{}' AND status = 'pending'".format(username))
     if str(curs.fetchone()) == "None":
         tmpcon.close()
         return False
     else:
         tmpcon.close()
         return True
-
-#prints network for show my network
-def print_network(username):
-    tmpcon = db.sqlite3.connect('inCollege.db')
-    tmpcursor = tmpcon.cursor()
-    curs = tmpcursor.execute("SELECT friends_user FROM friends WHERE status = 'accepted' AND username = '{}'".format(username))
-    if str(curs.fetchone()) == "None":
-        tmpcon.close()
-        print("No Friends")
-        return False
-    
-    count = 1
-    for row in tmpcursor.execute("SELECT friends_user FROM friends WHERE status = 'accepted' AND username = '{}'".format(username)):
-        print(str(count) + ". " + str(row)[2:-3])
-        count += 1
-    
-    tmpcon.close()
-    return
