@@ -119,3 +119,10 @@ def test_language(monkeypatch):
     assert page.language() == "English"
     monkeypatch.setattr('sys.stdin', StringIO('2\n'))
     assert page.language() == "Spanish"
+#--------------------------------------------------------------------------------------
+#                           Week 5 Tests
+#--------------------------------------------------------------------------------------
+
+def test_pending_friend():
+    assert friends.pending_friend("user1") == True
+    assert friends.pending_friend("None") == False
