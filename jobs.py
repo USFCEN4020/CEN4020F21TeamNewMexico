@@ -9,7 +9,7 @@ def space_for_job():  # tested
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     curs = tmpcursor.execute('SELECT * FROM jobs;')
-    if len(curs.fetchall()) < 5:
+    if len(curs.fetchall()) < 10:
         tmpcon.close()
         return True
     else:

@@ -34,3 +34,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS education
 cursor.execute('''CREATE TABLE IF NOT EXISTS friends
                  (username, friends_user, status)''')
 
+
+#status can be "saved" "applied"
+#cursor.execute('''CREATE TABLE IF NOT EXISTS applications
+#                 (username, title, employer, status)''')
+

@@ -101,7 +101,7 @@ def mainPage():
     if friend.pending_friend(reg.username) == True:
         print("You have a pending friend request")
     else:
-        print("self test no friend request")
+        print("no friend requests :(")
 
 
     menu.print_options_menu()
@@ -139,14 +139,14 @@ def mainPage():
     elif selection == 9:
         homepage()
 
-# ---------------------------peding------------
+# ---------------------------pending------------
 def view_pending_requests():
                
     while (True):
         result = db.cursor.execute("SELECT status, friends_user FROM friends NATURAL JOIN users WHERE username = '{}'".format(reg.username)).fetchall()
         pending = db.cursor.execute("SELECT * FROM friends WHERE status = 'pending' and username = '{}'".format(reg.username)).fetchall()
         
-        count = 1;
+        count = 1
         if len(pending) == 0 :
             print("\nNo requests pending")
             mainPage()
@@ -166,9 +166,9 @@ def view_pending_requests():
         if int(selection) == 0:
             mainPage()
         if int(selection) < 1 or int(selection) > len(result):
-            continue;
+            continue
         else:
-            break;
+            break
       
     db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(result[int(selection) - 1][2]))
     db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(reg.username))
@@ -332,7 +332,7 @@ def friendsPage():
         result = db.cursor.execute("SELECT firstName, lastName, username FROM users WHERE {} = '{}' COLLATE NOCASE".format(search_type, search)).fetchall()
     friendConnection  = None
     while (True):
-        count = 1;
+        count = 1
         if len(result) == 0:
             print("No Student found with that entry.")
             friendsPage()
@@ -346,10 +346,10 @@ def friendsPage():
             if int(selection) == 0:
                 friendsPage()
             if int(selection) < 1 or int(selection) > len(result):
-                continue;
+                continue
             else:
                 friendConnection = result[int(selection) - 1][2]
-                break;
+                break
     friend.friend_request(reg.username, friendConnection)
     mainPage()
         
