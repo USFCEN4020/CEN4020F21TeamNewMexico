@@ -1,6 +1,8 @@
 import registration as reg
 import database as db
 # True if account is found with first and last name, false if not found
+
+
 def find_friend_account(first, last):  # tested
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
@@ -14,6 +16,8 @@ def find_friend_account(first, last):  # tested
 
 #adds friends
 #user1 sends it to user2
+
+
 def friend_request(user1, user_sent):
 
     #just incase, users should be checked before entering
@@ -38,6 +42,7 @@ def friend_request(user1, user_sent):
     print("friend request sent")
     tmpcon.commit()
     tmpcon.close()
+
 
 #false if no pending friend requests
 def pending_friend(username):
