@@ -57,3 +57,33 @@ def fetch_job_numbers():  # added function to return the number of items in the 
     return value
 
 
+
+def list_jobs(username):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+
+    result = tmpcursor.execute("SELECT * FROM jobs").fetchall()
+    
+    count = 0
+    for i in result:
+        #sends username title posted
+        tmp = check_job_status(username, i[1], i[0])
+        print(str(count) + ". " +  "Title: " + str(i[1]) + "\t Employer: " + str(i[3]) + "\t Location: " + str(i[4]) + "\t Salary: " + str(i[5]) + "\t Description: " + str(i[2]) + "\t Status:"+ tmp)
+        count += 1
+    
+    tmpcon.close()
+
+def check_job_status(username, title, posted):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    #curs = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND title = '{}' AND posted = '{}'".format(username, title, posted))
+    curs = tmpcursor.execute("SELECT * FROM app_status WHERE (username = '{}' AND title = '{}' AND posted = '{}' COLLATE NOCASE)".format(username, title, posted))#, title, posted))
+    check = str(curs.fetchone())
+    if check == "None":
+        tmpcon.close()
+        return "None"
+    else:
+        ret = tmpcursor.execute("SELECT * FROM app_status WHERE (username = '{}' AND title = '{}' AND posted = '{}' COLLATE NOCASE)".format(username, title, posted)).fetchall()
+        tmpcon.close()
+        #returns the status
+        return str(ret[0][3])
