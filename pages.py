@@ -86,7 +86,6 @@ def homepage():
         importantLinksPage()
         return
 
-
     elif selection == 7:
         pass
 
@@ -102,7 +101,6 @@ def mainPage():
         print("You have a pending friend request")
     else:
         print("no friend requests :(")
-
 
     menu.print_options_menu()
     selection = user_input(9)
@@ -140,8 +138,10 @@ def mainPage():
         homepage()
 
 # ---------------------------pending------------
+
+
 def view_pending_requests():
-               
+
     while (True):
         result = db.cursor.execute("SELECT status, friends_user FROM friends NATURAL JOIN users WHERE username = '{}'".format(reg.username)).fetchall()
         pending = db.cursor.execute("SELECT * FROM friends WHERE status = 'pending' and username = '{}'".format(reg.username)).fetchall()
@@ -159,8 +159,7 @@ def view_pending_requests():
                     print("{}. {} {} has sent you a frined request.".format(count, name[0][0], name[0][1]))
                     
                     count += 1
-                   
-    
+
         print("\n\nEnter 0 to go back to main page.\n")
         selection = input("\nPlease enter the number of the user to accept request: ")
         if int(selection) == 0:
@@ -178,7 +177,8 @@ def view_pending_requests():
 
 def show_network():
     connections = None
-    result = db.cursor.execute("SELECT firstName, lastName, username, status FROM friends NATURAL JOIN users WHERE friends_user = '{}'".format(reg.username)).fetchall()
+    result = db.cursor.execute("SELECT firstName, lastName, username, status FROM friends "
+                               "NATURAL JOIN users WHERE friends_user = '{}'".format(reg.username)).fetchall()
     if len(result) == 0:
         print("\nYou have no connections yet.")
         conections = False
@@ -202,7 +202,7 @@ def show_network():
       else:
         freindConnection = result[int(selection) - 1][2]
         
-        print("1. View user's profle\n"
+        print("1. View user's profile\n"
               "2. Disconnect from friend\n"
               "0. Go back\n")
         print("\nEnter Selection: ")
@@ -220,10 +220,10 @@ def show_network():
         break
   
 
+#--------------profile page--------------
 
-        
-#--------------profile page********
 def profilePage():
+
     if pagesVisited[-1] != "profile":
         pagesVisited.append("profile")
     menu.profileMenu()
