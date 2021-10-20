@@ -87,3 +87,31 @@ def check_job_status(username, title, posted):
         tmpcon.close()
         #returns the status
         return str(ret[0][3])
+
+def list_jobs_saved(username):
+    print("Saved Jobs:")
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    result = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND status = 'saved' COLLATE NOCASE".format(username)).fetchall()
+    
+    count = 0
+    for i in result:
+        jobs_saved = tmpcursor.execute("SELECT * FROM jobs WHERE title = '{}' AND username = '{}' COLLATE NOCASE".format(i[1], i[2])).fetchall()
+        print(str(count) + ". " +  "Title: " + str(jobs_saved[0][1]) + "\t Employer: " + str(jobs_saved[0][3]) + "\t Location: " + str(jobs_saved[0][4]) + "\t Salary: " + str(jobs_saved[0][5]) + "\t Description: " + str(jobs_saved[0][2]))
+        count += 1
+    count = 0
+
+
+
+def list_jobs_applied(username):
+    print("Applied Jobs:")
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    result = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND status = 'applied' COLLATE NOCASE".format(username)).fetchall()
+    
+    count = 0
+    for i in result:
+        jobs_saved = tmpcursor.execute("SELECT * FROM jobs WHERE title = '{}' AND username = '{}' COLLATE NOCASE".format(i[1], i[2])).fetchall()
+        print(str(count) + ". " +  "Title: " + str(jobs_saved[0][1]) + "\t Employer: " + str(jobs_saved[0][3]) + "\t Location: " + str(jobs_saved[0][4]) + "\t Salary: " + str(jobs_saved[0][5]) + "\t Description: " + str(jobs_saved[0][2]))
+        count += 1
+    count = 0
