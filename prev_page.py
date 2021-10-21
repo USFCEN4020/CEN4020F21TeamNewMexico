@@ -1,4 +1,5 @@
 import pages as page
+import jobs
 import profile as pf
 def previous():
     # pull up previous
@@ -33,8 +34,11 @@ def previous():
     elif page.pagesVisited[-1] == "jobs":
         page.jobPage()
 
+    elif page.pagesVisited[-1] == "jobsSelect":
+        page.jobSelectPage()
+
     elif page.pagesVisited[-1] == "post a job":
-        page.post_job_page()
+        jobs.post_job_page()
 
     elif page.pagesVisited[-1] == "friends":
         page.friendsPage()

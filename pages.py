@@ -102,6 +102,9 @@ def mainPage():
     else:
         print("no friend requests :(")
 
+    if job.job_deleted(reg.username) == True:
+        print("A job you have saved or applied for has been Deleted.")
+
     menu.print_options_menu()
     selection = user_input(9)
 
@@ -722,4 +725,60 @@ def language():
         my_lang = "Spanish"
         return my_lang
 
+# --------------------------------JOBS--------------------------------------
 
+
+def jobPage():
+    if pagesVisited[-1] != "jobs":
+        pagesVisited.append("jobs")
+    while(True):
+        print("\n1. Post a job"
+            "\n2. List all jobs"
+            "\n3. List jobs applied to"
+            "\n4. List saved jobs"
+            "\n5. Delete a job"
+            "\n6. Go back")
+
+        selection = user_input(6)
+
+        if selection == 1:
+            job.post_job_page()
+        elif selection == 2:
+            select = job.list_jobs(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 3:
+            select = job.list_jobs_applied(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 4:
+            select = job.list_jobs_saved(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 5:
+            select = job.list_jobs(reg.username)
+            # call delete job
+        elif selection == 6:
+            pv.previous()
+
+
+def jobSelectPage(jobs):
+    if pagesVisited[-1] != "jobsSelect":
+        pagesVisited.append("jobsSelect")
+    
+    while(True):
+        #print job details
+        print("\n1. Apply for job"
+            "\n2. Save job"
+            "\n3. Unsave job"
+            "\n4. Go back")
+        selection = user_input(4)
+        if selection == 1:
+            job.apply_job(jobs, reg.username)
+        elif selection == 2:
+            job.save_job(jobs, reg.username, True)      
+        elif selection == 3:
+            job.save_job(jobs, reg.username, False)        
+        elif selection == 4:
+            pv.previous()
+            

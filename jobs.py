@@ -84,6 +84,7 @@ def list_jobs(username):
 def check_job_status(username, title, posted):
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
+    
     #curs = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND title = '{}' AND posted = '{}'".format(username, title, posted))
     curs = tmpcursor.execute("SELECT * FROM app_status WHERE (username = '{}' AND title = '{}' AND posted = '{}' COLLATE NOCASE)".format(username, title, posted))#, title, posted))
     check = str(curs.fetchone())
@@ -95,6 +96,7 @@ def check_job_status(username, title, posted):
         tmpcon.close()
         #returns the status
         return str(ret[0][3])
+
 
 #not working yet
 def list_jobs_saved(username):
@@ -188,3 +190,44 @@ def job_selection(maxInput):
         numSelection = int(my_selection)
 
     return int(my_selection)
+
+#false if no pending friend requests
+def job_deleted(username):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    curs = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND status = 'deleted'".format(username))
+    if str(curs.fetchone()) == "None":
+        tmpcon.close()
+        return False
+    else:
+        tmpcursor.execute("DELETE FROM app_status WHERE username = '{}' AND status = 'deleted'".format(username))
+        tmpcon.commit()
+        tmpcon.close()
+        return True
+
+#save true = save, save false = unsave
+def save_job(job, current_user, save):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()    
+
+    #checks if already applied, already saved, or neither. The if saved or neither itll apply  them.
+    status = str(check_job_status(current_user, job[1], job[0]))
+    if status == "applied":
+        print("Already applied")
+        return
+    elif status == "saved" and save == True:
+        print("Already saved job")
+        return
+    elif status == "saved" and save == False:
+        print("Job Unsaved")
+        tmpcursor.execute("DELETE FROM app_status WHERE username = '{}' AND title = '{}' AND posted = '{}' AND status = 'saved'".format(current_user, job[1], job[0]))
+    elif status == "none" and save == False:
+        print("Cannot unsave a job you have not saved")
+    #the none category means hasnt applied yet or saved yet
+    else:
+        print("Job Saved")
+        tmpcursor.execute("INSERT INTO app_status VALUES ('{}', '{}', '{}', 'saved')".format(current_user, job[1], job[0]))
+    tmpcon.commit()
+    tmpcon.close()
+    return
+

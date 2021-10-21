@@ -36,9 +36,9 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS friends
 
 
 #status can be "saved" "applied" or "deleted"
-#cursor.execute('''CREATE TABLE IF NOT EXISTS app_status
-#                 (username, title, employer, status)''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS app_status
+                 (username, title, posted, status)''')
 
-#cursor.execute('''CREATE TABLE IF NOT EXISTS applications
-#                 (username, title, employer, grad_date, start_date, best_fit)''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS applications
+                 (username, title, employer, grad_date, start_date, best_fit)''')
 
