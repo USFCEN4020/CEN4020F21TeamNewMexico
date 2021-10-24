@@ -35,7 +35,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS friends
                  (username, friends_user, status)''')
 
 
-#status can be "saved" "applied" or "deleted"
+#   status can be "saved" "applied" or "deleted"
+#   posed parameter is username of job poster
 cursor.execute('''CREATE TABLE IF NOT EXISTS app_status
                  (username, title, posted, status)''')
 
