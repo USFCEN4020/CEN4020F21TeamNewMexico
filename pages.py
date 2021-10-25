@@ -756,8 +756,7 @@ def jobPage():
             if select != 0:
                 jobSelectPage(select)
         elif selection == 5:
-            select = job.list_jobs(reg.username)
-            # call delete job
+            select = job.delete_job(reg.username)
         elif selection == 6:
             pv.previous()
 
