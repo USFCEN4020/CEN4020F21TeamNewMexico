@@ -129,3 +129,27 @@ def test_language(monkeypatch):
 def test_pending_friend():
     assert friends.pending_friend("user1") == True
     assert friends.pending_friend("None") == False
+   
+#--------------------------------------------------------------------------------------
+#                           Week 5 Tests
+#--------------------------------------------------------------------------------------
+@pytest.fixture(scope='module')
+def data():
+    con = sqlite3.connect('inCollege.db')
+    db_test = con.cursor()
+    data = ['usertest1', 'trash', '06/06/1997', 'applied']
+    db_test.execute('''INSERT INTO app_status VALUES (?,?,?,?)''', data)
+     
+    yield data
+
+    db_test.execute('''DELETE FROM app_status ''')
+    db_test.close()
+  
+
+def test_job_deleted(data):
+    assert job.job_deleted(data[1]) == True
+    assert job.job_deleted("user1") == False
+
+def test_check_job_status(data):
+    assert job.check_job_status('usertest1', 'trash','06/06/1997') == 'None'
+    assert job.check_job_status('user1', 'Wizard','user3') == 'saved'
