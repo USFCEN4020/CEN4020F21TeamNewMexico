@@ -759,6 +759,7 @@ def jobPage():
             select = job.delete_job(reg.username)
         elif selection == 6:
             pv.previous()
+            break
 
 
 def jobSelectPage(jobs):
