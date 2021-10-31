@@ -1,3 +1,4 @@
+import messages
 import prev_page as pv
 import registration as reg
 import menus as menu
@@ -5,6 +6,7 @@ import jobs as job
 import friends as friend
 import database as db
 import profile as pf
+import messages as msg
 
 # NOTE 
 
@@ -18,18 +20,9 @@ import profile as pf
 # made pagesVisited list global. Now it doesn't need to be passed through every page's parameter anymore
 
 
-
 # --------------------------GO TO PAGE---------------------------
-# ****************************add to this list as we make new pages*********
-def user_input(maxInput):
-    my_selection = input("\nEnter your selection: ")
-    # cast to int
-    numSelection = int(my_selection)  # might cause casting error like if my_selection is alpha
-    while not my_selection.isnumeric() or (numSelection > maxInput or numSelection < 1):
-        my_selection = input("\nPlease enter a valid selection: ")
-        numSelection = int(my_selection)
 
-    return int(my_selection)
+# ****************************add to this list as we make new pages*********
 
 # ------------------------------HOMEPAGE---------------------
 
@@ -57,7 +50,7 @@ def homepage():
 
     # returns num options
     optionNum = menu.print_login_menu()
-    selection = user_input(optionNum)
+    selection = menu.user_input(optionNum)
 
     # login option
     if selection == 1:  # log in
@@ -76,7 +69,7 @@ def homepage():
 
     # play video (not separate page)
     elif selection == 4:
-        findfriendsPage()
+        friend.findfriendsPage()
 
     elif selection == 5:
         usefulLinksPage()
@@ -105,8 +98,11 @@ def mainPage():
     if job.job_deleted(reg.username) == True:
         print("A job you have saved or applied for has been Deleted.")
 
+    if messages.inboxNotification():
+        print("\nYou have messages in your inbox.")
+
     menu.print_options_menu()
-    selection = user_input(9)
+    selection = menu.user_input(10)
 
     # added code
     # sub_selection = None
@@ -116,67 +112,35 @@ def mainPage():
 
     # goTo jobs
     elif selection == 2:
-        jobPage()
+        job.jobPage()
 
     # goTo friends
     elif selection == 3:
-        friendsPage()
+        friend.friendsPage()
 
     elif selection == 4:
-        view_pending_requests()
+        friend.view_pending_requests()
 
     elif selection == 5:
         show_network()
-# goTo skills
+
     elif selection == 6:
+        msg.messagesPage(reg.username)
+
+# goTo skills
+    elif selection == 7:
         skillsPage()
 
-    elif selection == 7:
+    elif selection == 8:
         usefulLinksPage()
 
-    elif selection == 8:
+    elif selection == 9:
         importantLinksPage()
 
-    elif selection == 9:
+    elif selection == 10:
         homepage()
 
-# ---------------------------pending------------
-
-
-def view_pending_requests():
-
-    while (True):
-        result = db.cursor.execute("SELECT status, friends_user FROM friends NATURAL JOIN users WHERE username = '{}'".format(reg.username)).fetchall()
-        pending = db.cursor.execute("SELECT * FROM friends WHERE status = 'pending' and username = '{}'".format(reg.username)).fetchall()
-        
-        count = 1
-        if len(pending) == 0 :
-            print("\nNo requests pending")
-            mainPage()
-        else:
-            for i in result:
-                
-                temp = result
-                if i[0] == "pending":
-                    name = db.cursor.execute("SELECT * FROM users WHERE username = '{}'".format(i[1])).fetchall()
-                    print("{}. {} {} has sent you a frined request.".format(count, name[0][0], name[0][1]))
-                    
-                    count += 1
-
-        print("\n\nEnter 0 to go back to main page.\n")
-        selection = input("\nPlease enter the number of the user to accept request: ")
-        if int(selection) == 0:
-            mainPage()
-        if int(selection) < 1 or int(selection) > len(result):
-            continue
-        else:
-            break
-      
-    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(result[int(selection) - 1][2]))
-    db.cursor.execute("UPDATE friends SET status = 'accepted' WHERE username = '{}'".format(reg.username))
-    db.con.commit()
-    mainPage()
-
+#_-----friends--------
 
 def show_network():
     connections = None
@@ -203,18 +167,18 @@ def show_network():
         print("\nInvalid entry please re-enter.")
         continue
       else:
-        freindConnection = result[int(selection) - 1][2]
+        friendConnection = result[int(selection) - 1][2]
         
         print("1. View user's profile\n"
               "2. Disconnect from friend\n"
               "0. Go back\n")
         print("\nEnter Selection: ")
-        selection = user_input(2)
+        selection = menu.user_input(2)
         if int(selection) == 1:
-            pf.viewProfilePage(freindConnection, True)
+            pf.viewProfilePage(friendConnection, True)
         elif int(selection) == 2:
-            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(reg.username, freindConnection))
-            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(freindConnection, reg.username))
+            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(reg.username, friendConnection))
+            db.cursor.execute("DELETE FROM friends WHERE username = '{}' AND friends_user = '{}'".format(friendConnection, reg.username))
             db.con.commit()
             mainPage()
         elif int(selection) == 0:
@@ -230,7 +194,7 @@ def profilePage():
     if pagesVisited[-1] != "profile":
         pagesVisited.append("profile")
     menu.profileMenu()
-    selection = user_input(5)
+    selection = menu.user_input(5)
 
     if selection == 1:
         pf.aboutProfilePage(reg.username)
@@ -241,8 +205,7 @@ def profilePage():
     elif selection == 4:
         pf.viewProfilePage(reg.username)
     elif selection == 5:
-        pv.previous()
-      
+        msg.messagesPage(reg.username)
 
     
 #SKILL PAGE
@@ -286,7 +249,7 @@ def skillsPage():
     if pagesVisited[-1] != "skills":
         pagesVisited.append("skills")
     menu.print_skills_menu()
-    selection = user_input(6)
+    selection = menu.user_input(6)
 
     if selection == 1:
         pythonPage()
@@ -298,117 +261,23 @@ def skillsPage():
         cppPage()
     elif selection == 5:
         rubyPage()
-    elif selection == 6:
-        pv.previous()
 
 
-# --------------------------------FRIENDS--------------------------------------
-
-def friendsPage():
-    if pagesVisited[-1] != "friends":
-        pagesVisited.append("friends")
-    search_type = None
-    print("Student Search\n"+
-          "Please select on of the following\n\n")
-    
-    print("1. Search by last name.\n" +
-          "2. Search by major.\n" + 
-          "3. Search by University\n" +
-          "4. Go back\n\n")
-
-    selection = user_input(4)
-
-    if int(selection) == 1:
-        search_type = "lastName"
-    elif int(selection) == 2:
-        search_type = "major"
-    elif int(selection) == 3:
-        search_type = "university"
-    elif int(selection) == 4:
-        mainPage()
-    
-    search = input("Enter search value: ")
-
-    if int(selection) != 1:
-        result = db.cursor.execute("SELECT firstName, lastName, username FROM users NATURAL JOIN about where {} = '{}' COLLATE NOCASE".format(search_type, search)).fetchall()
-    else:
-        result = db.cursor.execute("SELECT firstName, lastName, username FROM users WHERE {} = '{}' COLLATE NOCASE".format(search_type, search)).fetchall()
-    friendConnection  = None
-    while (True):
-        count = 1
-        if len(result) == 0:
-            print("No Student found with that entry.")
-            friendsPage()
-        else:
-            for i in result:
-                print("{}. {} {} {}".format(count, i[0], i[1], i[2]))
-                count += 1
-    
-            print("\n\nEnter 0 to go back to search menu.\n")
-            selection = input("Please enter the number of the user you would like to connect with: ")
-            if int(selection) == 0:
-                friendsPage()
-            if int(selection) < 1 or int(selection) > len(result):
-                continue
-            else:
-                friendConnection = result[int(selection) - 1][2]
-                break
-    friend.friend_request(reg.username, friendConnection)
-    mainPage()
-        
-    
-def jobPage():
-    if pagesVisited[-1] != "jobs":
-        pagesVisited.append("jobs")
-    print("\n1. Post a job"
-          "\n2. Go back")
-
-    selection = user_input(2)
-
-    if selection == 1:
-        job.post_job_page()
-
-    elif selection == 2:
-        pv.previous()
 
 
-# -------------------------FindFRIENDS---------------------------------------------------------------
 
-def findfriendsPage():
-    pagesVisited.append("findfriends")
-    print("\n1. Look for a friend"
-          "\n2. Go back")
 
-    selection = user_input(2)
 
-    if selection == 1:
-        first = input("\nFirst name: ")
-        last = input("\nLast name: ")
-        if friend.find_friend_account(first, last):
-            print("\nYour friend is on inCollege! Join them today."
-                  "\n1. Log in"
-                  "\n2. Sign up")
+# -------------------------usefulLinksPage---------------------------------------------------------------
 
-            selection = user_input(2)
 
-            if selection == 1:
-                reg.login()
-            elif selection == 2:
-                reg.signup()
-
-        else:
-            print("\nYour friend has not joined inCollege yet!")
-            pv.previous()
-
-    elif selection == 2:
-        pv.previous()
 
 def usefulLinksPage():
     if pagesVisited[-1] != "useful links":
         pagesVisited.append("useful links")
 
     menu.print_useful_links()
-    selection = user_input(5)
+    selection = menu.user_input(4)
 
     if selection == 1:
         generalPage()
@@ -422,9 +291,6 @@ def usefulLinksPage():
     elif selection == 4:
         directories()
 
-    elif selection == 5:
-        pv.previous()
-
 
 #-----------------LINKS PAGE--------------------#
 def generalPage():
@@ -432,7 +298,7 @@ def generalPage():
         pagesVisited.append("general")
 
     menu.print_general_menu()
-    selection = user_input(8)
+    selection = menu.user_input(7)
 
     if selection == 1:
         reg.signup()
@@ -454,9 +320,6 @@ def generalPage():
 
     elif selection == 7:
         devPage()
-
-    elif selection == 8:
-        pv.previous()
 
 def helpCenterPage():
     if pagesVisited[-1] != "help center":
@@ -523,7 +386,7 @@ def importantLinksPage():
         pagesVisited.append("important links")
 
     menu.print_important_links()
-    selection = user_input(10)
+    selection = menu.user_input(9)
 
     if selection == 1:
         copyrightNotice()
@@ -551,10 +414,6 @@ def importantLinksPage():
 
     elif selection == 9:
         guestControls()
-
-    elif selection == 10:
-        pv.previous()
-
 
 def copyrightNotice():
     if pagesVisited[-1] != "copyright notice":
@@ -641,7 +500,7 @@ def guestControls():
 
     else:
         menu.guestControlMenu()
-        selection = user_input(1)
+        selection = menu.user_input(1)
         if selection == 1:
             pv.previous()
 
@@ -660,7 +519,7 @@ def loginControl(uName):
           "\nLanguage -> {}".format(settings[0], settings[1], settings[2], settings[3], settings[4]))
     print("Would you like to change the default settings? \n1.Yes\n2.No")
 
-    selection = user_input(2)
+    selection = menu.user_input(2)
     if selection == 1:
         print("Please ON or OFF for the following settings")
 
@@ -681,7 +540,7 @@ def loginControl(uName):
 
 def on_off_mail():
     print("\ninCollegeEmail \n1.ON \n2.OFF ")
-    selection = user_input(2)
+    selection = menu.user_input(2)
     if selection == 1:
         my_email = "ON"
         return my_email
@@ -692,7 +551,7 @@ def on_off_mail():
 
 def on_off_sms():
     print("\nSMS \n1.ON \n2.OFF ")
-    selection = user_input(2)
+    selection = menu.user_input(2)
     if selection == 1:
         my_sms = "ON"
         return my_sms
@@ -704,7 +563,7 @@ def on_off_sms():
 
 def on_off_ads():
     print("\nAds \n1.ON \n2.OFF ")
-    selection = user_input(2)
+    selection = menu.user_input(2)
     if selection == 1:
         my_ads = "ON"
         return my_ads
@@ -716,7 +575,7 @@ def on_off_ads():
 
 def language():
     print("\nLanguage \n1.English \n2.Spanish ")
-    selection = user_input(2)
+    selection = menu.user_input(2)
     if selection == 1:
         my_lang = "English"
         return my_lang
@@ -725,60 +584,6 @@ def language():
         my_lang = "Spanish"
         return my_lang
 
-# --------------------------------JOBS--------------------------------------
 
 
-def jobPage():
-    if pagesVisited[-1] != "jobs":
-        pagesVisited.append("jobs")
-    while(True):
-        print("\n1. Post a job"
-            "\n2. List all jobs"
-            "\n3. List jobs applied to"
-            "\n4. List saved jobs"
-            "\n5. Delete a job"
-            "\n6. Go back")
-
-        selection = user_input(6)
-
-        if selection == 1:
-            job.post_job_page()
-        elif selection == 2:
-            select = job.list_jobs(reg.username)
-            if select != 0:
-                jobSelectPage(select)
-        elif selection == 3:
-            select = job.list_jobs_applied(reg.username)
-            if select != 0:
-                jobSelectPage(select)
-        elif selection == 4:
-            select = job.list_jobs_saved(reg.username)
-            if select != 0:
-                jobSelectPage(select)
-        elif selection == 5:
-            select = job.delete_job(reg.username)
-        elif selection == 6:
-            pv.previous()
-            break
-
-
-def jobSelectPage(jobs):
-    if pagesVisited[-1] != "jobsSelect":
-        pagesVisited.append("jobsSelect")
-    
-    while(True):
-        #print job details
-        print("\n1. Apply for job"
-            "\n2. Save job"
-            "\n3. Unsave job"
-            "\n4. Go back")
-        selection = user_input(4)
-        if selection == 1:
-            job.apply_job(jobs, reg.username)
-        elif selection == 2:
-            job.save_job(jobs, reg.username, True)      
-        elif selection == 3:
-            job.save_job(jobs, reg.username, False)        
-        elif selection == 4:
-            pv.previous()
             

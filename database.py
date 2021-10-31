@@ -43,3 +43,6 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS app_status
 cursor.execute('''CREATE TABLE IF NOT EXISTS applications
                  (username, title, employer, grad_date, start_date, best_fit)''')
 
+cursor.execute('''CREATE TABLE IF NOT EXISTS messages
+                 (sender, recipient, text)''')
+
