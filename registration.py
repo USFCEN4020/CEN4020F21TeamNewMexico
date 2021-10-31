@@ -1,13 +1,16 @@
 import database as db
 import pages as page
+import menus as menu
 
 # -----------------------SIGNUP------------------------------------
 
 # Creates a new user in DB. Made it a separate function so it can be easily changed for future
-def create_user(uName, passw, fName, lName):
+#regular plan = 1
+#plus plan = 2
+def create_user(uName, passw, fName, lName, plan):
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
-    tmpcursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, 0)", (fName, lName, uName, passw))
+    tmpcursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (fName, lName, uName, passw, plan))
     tmpcursor.execute("INSERT INTO settings VALUES (?, ?, ?, ?, ?)", (uName, "ON", "ON", "ON", "English"))
     print("succesfully registered")
     tmpcon.commit()
@@ -86,14 +89,20 @@ def signup():
         signup()  # added pagesVisited parameter here
 
     password = input("\nEnter Password: ")
-    if is_good_password(password):
-        create_user(username, password, firstName, lastName)
-    else:
+    if not is_good_password(password):
         while not is_good_password(password):
             password = input("\nPassword must contain each of the following: "
                              "\nan uppercase letter, a non-alphanumeric character, and a number."
                              "\nPlease re-enter: ")
-        create_user(username, password, firstName, lastName)
+
+    #standard or plus option
+    print("Select a plan. The standard plan is free. The Plus plan is $10/month\n"
+           "1. standard\n"
+           "2. plus\n")
+
+    plan = menu.user_input(2)
+    create_user(username, password, firstName, lastName, plan)
+
     # goTo homepage
     page.homepage()
 

@@ -1,6 +1,10 @@
 import pages as page
-import jobs
+import jobs as job
 import profile as pf
+import friends as friend
+import messages as mssg
+import registration as reg
+
 def previous():
     # pull up previous
     page.pagesVisited.pop()
@@ -32,19 +36,19 @@ def previous():
         page.rubyPage()
 
     elif page.pagesVisited[-1] == "jobs":
-        page.jobPage()
+        job.jobPage()
 
     elif page.pagesVisited[-1] == "jobsSelect":
-        page.jobSelectPage()
+        job.jobSelectPage()
 
     elif page.pagesVisited[-1] == "post a job":
-        jobs.post_job_page()
+        job.post_job_page()
 
     elif page.pagesVisited[-1] == "friends":
-        page.friendsPage()
+        friend.friendsPage()
 
     elif page.pagesVisited[-1] == "findfriends":
-        page.findfriendsPage()
+        friend.findfriendsPage()
 
     elif page.pagesVisited[-1] == "useful links":
         page.usefulLinksPage()
@@ -108,6 +112,25 @@ def previous():
 
     elif page.pagesVisited[-1] == "profile":
         page.profilePage()
+
+    elif page.pagesVisited[-1] == "messages":
+        mssg.messagesPage(reg.username)
+
+    elif page.pagesVisited[-1] == "inbox":
+        mssg.inbox()
+
+    elif page.pagesVisited[-1] == "view pending requests":
+        friend.view_pending_requests(reg.username)
+
+    elif page.pagesVisited[-1] == "sendMessages":
+        mssg.sendMessage(reg.username)
+
+    elif page.pagesVisited[-1] == "showFriends":
+        mssg.sendToFriendsFriends()
+
+    elif page.pagesVisited[-1] == "showEveryOne":
+        mssg.showEveryOne()
+    
     
     # elif page.pagesVisited[-1] == "aboutProfile":
     #     page.profilePage()

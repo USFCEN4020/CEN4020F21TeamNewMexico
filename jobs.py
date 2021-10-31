@@ -1,9 +1,64 @@
 import registration as reg
 import database as db
 import pages as page
+import menus as menu
+import prev_page as pv
 
 
 # ---------------------------------JOBS-------------------------------------------------------------
+
+def jobSelectPage(jobs):
+    if page.pagesVisited[-1] != "jobsSelect":
+        page.pagesVisited.append("jobsSelect")
+    
+    while(True):
+        #print job details
+        print("\n1. Apply for job"
+            "\n2. Save job"
+            "\n3. Unsave job"
+            "\n4. Go back")
+        selection = menu.user_input(4)
+        if selection == 1:
+            apply_job(jobs, reg.username)
+        elif selection == 2:
+            save_job(jobs, reg.username, True)      
+        elif selection == 3:
+            save_job(jobs, reg.username, False)        
+        elif selection == 4:
+            pv.previous()
+
+def jobPage():
+    if page.pagesVisited[-1] != "jobs":
+        page.pagesVisited.append("jobs")
+    while(True):
+        print("\n1. Post a job"
+            "\n2. List all jobs"
+            "\n3. List jobs applied to"
+            "\n4. List saved jobs"
+            "\n5. Delete a job"
+            "\n6. Go back")
+
+        selection = menu.user_input(6)
+
+        if selection == 1:
+            post_job_page()
+        elif selection == 2:
+            select = list_jobs(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 3:
+            select = list_jobs_applied(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 4:
+            select = list_jobs_saved(reg.username)
+            if select != 0:
+                jobSelectPage(select)
+        elif selection == 5:
+            select = delete_job(reg.username)
+        elif selection == 6:
+            pv.previous()
+            break
 
 
 #   True if space, false if no space for jobs
@@ -79,7 +134,7 @@ def list_jobs(username):
 
     tmpcon.close()
 
-    selection = job_selection(count - 1)
+    selection = menu.user_input(count - 1)
     if (selection == 0):
         return 0
 
@@ -130,7 +185,7 @@ def list_jobs_saved(username):
         count += 1
 
     tmpcon.close()
-    selection = job_selection(count - 1)
+    selection = menu.user_input(count - 1)
     if (selection == 0):
         return 0
 
@@ -159,7 +214,7 @@ def list_jobs_applied(username):
         count += 1
 
     tmpcon.close()
-    selection = job_selection(count - 1)
+    selection = menu.user_input(count - 1)
     if selection == 0:
         return 0
 
@@ -204,17 +259,6 @@ def apply_job(job, current_user):
                                                                                       grad_d, start_d, parag))
     tmpcon.commit()
 
-
-# helper function
-def job_selection(maxInput):
-    my_selection = input("\nEnter your selection: ")
-    # cast to int
-    numSelection = int(my_selection)  # might cause casting error like if my_selection is alpha
-    while not my_selection.isnumeric() or (numSelection > maxInput or numSelection < 0):
-        my_selection = input("\nPlease enter a valid selection: ")
-        numSelection = int(my_selection)
-
-    return int(my_selection)
 
 
 def job_deleted(username):
@@ -285,7 +329,7 @@ def delete_job(username):
         count += 1
 
     #   prompt selection from user
-    selection = job_selection(count - 1)
+    selection = menu.user_input(count - 1)
     if selection == 0:
         tmpcon.commit()
         tmpcon.close()

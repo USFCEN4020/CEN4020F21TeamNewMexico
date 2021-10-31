@@ -21,6 +21,9 @@ import pages as pg
     # pv.previous()
 
 
+#new note:
+# 0 is the new default for Go Back. This is implemented in the user_input function in the menu file
+
 # -------------------------EXECUTE---------------------------------------------------------------
 
 def main():
@@ -29,5 +32,4 @@ def main():
     
 if __name__ == "__main__":
     main()
-
 
