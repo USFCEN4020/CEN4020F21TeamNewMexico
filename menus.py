@@ -34,6 +34,15 @@ def print_login_menu():
     optionNum = 7
     return optionNum
 
+def user_input(maxInput):
+  my_selection = input("\nselection: ")
+  numSelection = int(my_selection)
+  while numSelection > maxInput or numSelection < 1:
+      my_selection = input("\nPlease enter a valid selection: ")
+      if not my_selection.isnumeric():
+        continue;
+      numSelection = int(my_selection)
+  return int(my_selection)
 
 def print_useful_links():
     print("\n1. General Page"
