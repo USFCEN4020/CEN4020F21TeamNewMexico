@@ -149,26 +149,28 @@ def show_network():
     if len(result) == 0:
         print("\nYou have no connections yet.")
         conections = False
-    
+
     while(True):
-      count = 1   
+      count = 1
       for i in result:
-      
+
         print("{}. {} {} Username: {} Status: {}" .format(count, i[0], i[1], i[2], i[3]))
         count += 1
         connections = True
-    
-      selection = input("\nPlease enter line number to view connection options :")
+
       print("\n0. GO BACK\n")
+      selection = input("Please enter line number to view connection options:")
+      
       if int (selection) == 0:
         mainPage()
-        
+        return
+
       if int(selection) < 1 or int(selection) > len(result):
         print("\nInvalid entry please re-enter.")
         continue
       else:
         friendConnection = result[int(selection) - 1][2]
-        
+
         print("1. View user's profile\n"
               "2. Disconnect from friend\n"
               "0. Go back\n")
@@ -183,8 +185,8 @@ def show_network():
             mainPage()
         elif int(selection) == 0:
             mainPage()
-
-        break
+            break
+        
   
 
 #--------------profile page--------------

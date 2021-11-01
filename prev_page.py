@@ -127,7 +127,7 @@ def previous():
 
     elif page.pagesVisited[-1] == "showFriends":
         mssg.sendToFriendsFriends()
-
+                                   
     elif page.pagesVisited[-1] == "showEveryOne":
         mssg.showEveryOne()
     

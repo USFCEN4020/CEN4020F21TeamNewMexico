@@ -83,7 +83,7 @@ def sendMessage(username):
     if page.pagesVisited[-1] != "sendMessage":
         page.pagesVisited.append("sendMessage")
 
-    sender = db.cursor.execute("SELECT * FROM users WHERE username = '{}'".format(reg.username)).fetchall()
+    sender = db.cursor.execute("SELECT * FROM users WHERE username = '{}'".format(reg.username)).fetchone()
 
     print("Would you like to send a message to a Friend or to Anyone?"
           "\nONLY plus members can select the Anyone option")
@@ -141,24 +141,29 @@ def sendToFriends():
 def showEveryOne():
     #   function to send message to anyone (plus membership)
     if page.pagesVisited[-1] != "showEveryOne":
-        page.pagesVisited.append("showEveryOne")
+       page.pagesVisited.append("showEveryOne")
     print("Who would you like to send a message to?")
-
+    
     everyoneList = db.cursor.execute("SELECT * FROM users").fetchall()  # generate list of all users
 
     count = 1
-    for i in everyoneList:
-        print("{}. {}".format(count, everyoneList[0][0]))
+    for i in everyoneList:    
+        print("{}. {}".format(count, i[0]))
         count += 1
+    
+    selection = input("Selection:")
+    # if selection < len(everyoneList) && selection.isnumeric():
+    recipiant = everyoneList[int(selection) -1][1]
 
-    recipient = menu.user_input(len(everyoneList))
-
-    createAMessage(recipient[0])  # should access name of selected recipient
+    createAMessage(recipiant[0])  # should access name of selected recipient
+    # print("testing page")
+    # print (page.pagesVisited[-1])
+    pv.previous()
     return
-
 
 def createAMessage(recipient):
     # actual function to add message to messages table
+    
     messageBody = input("\nEnter your message here: ")
 
     #   create entry in messages table
@@ -168,8 +173,7 @@ def createAMessage(recipient):
 
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
-    tmpcursor.execute("INSERT INTO messages VALUES (?, ?, ?, )", (reg.username, recipient, messageBody))
+    tmpcursor.execute("INSERT INTO messages VALUES (?, ?, ?)",(reg.username, recipient, messageBody))
 
     pv.previous()
-
-    return
+    return 
