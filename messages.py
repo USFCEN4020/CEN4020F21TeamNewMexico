@@ -27,16 +27,6 @@ def messagesPage(username):
     elif selection == 2:
         sendMessage(username)
 
-
-def inboxNotification():
-    inbox_list = db.cursor.execute("SELECT * FROM messages WHERE recipient = '{}'".format(reg.username)).fetchall()
-
-    if len(inbox_list):
-        return True
-    else:
-        return False
-
-
 def inbox():
     if page.pagesVisited[-1] != "inbox":
         page.pagesVisited.append("inbox")

@@ -44,6 +44,7 @@ def previous():
     elif page.pagesVisited[-1] == "post a job":
         job.post_job_page()
 
+
     elif page.pagesVisited[-1] == "friends":
         friend.friendsPage()
 
