@@ -60,6 +60,7 @@ def inbox():
                     "DELETE * FROM messages WHERE recipient = '{}' AND sender = '{}' AND text = '{}'",
                     message_selection[0], message_selection[1], message_selection[2])
                 print("\nMessage has been deleted.")
+                db.cursor.commit()
                 page.mainPage()
 
     #   if inbox empty
@@ -164,6 +165,6 @@ def createAMessage(recipient):
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     tmpcursor.execute("INSERT INTO messages VALUES (?, ?, ?)",(reg.username, recipient, messageBody))
-
+    tmpcon.commit()
     pv.previous()
     return 

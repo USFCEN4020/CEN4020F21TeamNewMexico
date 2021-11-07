@@ -84,6 +84,7 @@ def test_post_job():
     conn = sqlite3.connect('inCollege.db')
     cursor = conn.cursor()
     curs = cursor.execute('SELECT * FROM jobs;')
+    reg.username = "user1"
     if len(curs.fetchall()) < 10:
         assert job.post_job('test1', 'test2', 'test3', 'test4', 'test5') == True
     else:
@@ -150,8 +151,21 @@ def data():
 
 def test_job_deleted(data):
     assert noti.job_deleted(data[1]) == True
+    #assert noti.job_deleted("usertest1") == True
     assert noti.job_deleted("user1") == False
 
 def test_check_job_status(data):
     assert job.check_job_status('usertest1', 'trash','06/06/1997') == 'None'
     assert job.check_job_status('user1', 'Wizard','user3') == 'saved'
+
+#----------------------------------------------------------------------------------
+# Notifications tests
+#----------------------------------------------------------------------------------
+
+def test_inboxNotification():
+    reg.username = "fake"
+    assert noti.inboxNotification() == False
+    
+    #Database has to have user1 having a message notification. Im trying to send a message to user1 as Tester but message is not actually sending
+    reg.username = "user1"
+    assert noti.inboxNotification() == True
