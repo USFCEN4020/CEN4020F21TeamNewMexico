@@ -31,6 +31,7 @@ def job_deleted(username):
     if str(job_d) == "None":
         tmpcon.close()
         print("No jobs that you have applied has been deleted")
+        return False
     else:
         print("{} \n".format(job_d[0][1]))
         tmpcursor.execute("DELETE FROM app_status WHERE username = '{}' AND status = 'deleted'".format(username))

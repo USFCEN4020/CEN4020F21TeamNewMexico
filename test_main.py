@@ -8,6 +8,7 @@ import jobs as job
 import pages as page
 import friends as f
 from io import StringIO
+import notifications as noti
 
 '''For testing purpose the Database been fill with 3 users
 table users
@@ -15,6 +16,7 @@ table users
     Jon  |  Snow  |  user1 | Password_1 | 0
     Gon  | Freecs |  user2 | Password_2 | 0
     Lisa | Simpson| user3  | Password_3 | 0
+    Tester| Tester| Tester | Tester_1   | 0
 
  for testing if exceeds more than 5, simply two more user can be added in the dashboard
 
@@ -82,7 +84,7 @@ def test_post_job():
     conn = sqlite3.connect('inCollege.db')
     cursor = conn.cursor()
     curs = cursor.execute('SELECT * FROM jobs;')
-    if len(curs.fetchall()) < 5:
+    if len(curs.fetchall()) < 10:
         assert job.post_job('test1', 'test2', 'test3', 'test4', 'test5') == True
     else:
         assert job.post_job('test1', 'test2', 'test3', 'test4', 'test5') == False
@@ -147,8 +149,8 @@ def data():
   
 
 def test_job_deleted(data):
-    assert job.job_deleted(data[1]) == True
-    assert job.job_deleted("user1") == False
+    assert noti.job_deleted(data[1]) == True
+    assert noti.job_deleted("user1") == False
 
 def test_check_job_status(data):
     assert job.check_job_status('usertest1', 'trash','06/06/1997') == 'None'

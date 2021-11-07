@@ -97,7 +97,7 @@ def post_job(my_title, my_description, my_employer, my_location, my_salary):  # 
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     previous_job_number = fetch_job_numbers()  # track number if items in the table prior adding data
-    if previous_job_number < 5:
+    if previous_job_number < 10:
         tmpcursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
                           (reg.username, my_title, my_description, my_employer,
                            my_location, my_salary))
