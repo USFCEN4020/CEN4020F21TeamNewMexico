@@ -1,5 +1,4 @@
 import messages
-import notifications as noti
 import prev_page as pv
 import registration as reg
 import menus as menu
@@ -89,8 +88,19 @@ def mainPage():
         pagesVisited.append("mainpage")
     elif pagesVisited[-1] != "mainpage":
         pagesVisited.append("mainpage")
-        
-    noti.notiSystem()
+
+    #prints pending friends
+    if friend.pending_friend(reg.username) == True:
+        print("You have a pending friend request")
+    else:
+        print("no friend requests :(")
+
+    if job.job_deleted(reg.username) == True:
+        print("A job you have saved or applied for has been Deleted.")
+
+    if messages.inboxNotification():
+        print("\nYou have messages in your inbox.")
+
     menu.print_options_menu()
     selection = menu.user_input(10)
 

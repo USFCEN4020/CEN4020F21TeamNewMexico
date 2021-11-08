@@ -3,7 +3,6 @@ import database as db
 import pages as page
 import menus as menu
 import prev_page as pv
-import notifications as noti
 
 
 # ---------------------------------JOBS-------------------------------------------------------------
@@ -30,19 +29,14 @@ def jobSelectPage(jobs):
 
 def jobPage():
     if page.pagesVisited[-1] != "jobs":
-      page.pagesVisited.append("jobs")
-    
-    count = noti.numberJobsApplied(reg.username)
-    noti.notifiTimeJobs(count)
+        page.pagesVisited.append("jobs")
     while(True):
-        
         print("\n1. Post a job"
-              "\n2. List all jobs"
-              "\n3. List jobs applied to"
-              "\n4. List saved jobs"
-              "\n5. Delete a job"
-              "\n6. Go back\n")
-            
+            "\n2. List all jobs"
+            "\n3. List jobs applied to"
+            "\n4. List saved jobs"
+            "\n5. Delete a job"
+            "\n6. Go back")
 
         selection = menu.user_input(6)
 
@@ -81,23 +75,20 @@ def space_for_job():  # tested
 
 
 def post_job_page():
-    if page.pagesVisited[-1] != "post a job":
-      page.pagesVisited.append("post a job")
-      
     my_title = input("\nJob title: ")
     my_description = input("\nJob description: ")
     my_employer = input("\nEmployer: ")
     my_location = input("\nJob location: ")
     my_salary = input("\nJob salary: ")
     post_job(my_title, my_description, my_employer, my_location, my_salary)
-    pv.previous()
+    page.jobPage()
 
 
 def post_job(my_title, my_description, my_employer, my_location, my_salary):  # tested
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     previous_job_number = fetch_job_numbers()  # track number if items in the table prior adding data
-    if previous_job_number < 10:
+    if previous_job_number < 5:
         tmpcursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
                           (reg.username, my_title, my_description, my_employer,
                            my_location, my_salary))
@@ -265,9 +256,24 @@ def apply_job(job, current_user):
     # uploads application to table
     tmpcursor.execute(
         "INSERT INTO applications VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(current_user, job[1], job[3],
-                                                              grad_d, start_d, parag))
-    
+                                                                                      grad_d, start_d, parag))
     tmpcon.commit()
+
+
+
+def job_deleted(username):
+    tmpcon = db.sqlite3.connect('inCollege.db')
+    tmpcursor = tmpcon.cursor()
+    curs = tmpcursor.execute("SELECT * FROM app_status WHERE username = '{}' AND status = 'deleted'".format(
+        username))  # should username be 'posted' ?
+    if str(curs.fetchone()) == "None":
+        tmpcon.close()
+        return False
+    else:
+        tmpcursor.execute("DELETE FROM app_status WHERE username = '{}' AND status = 'deleted'".format(username))
+        tmpcon.commit()
+        tmpcon.close()
+        return True
 
 
 # save true = save, save false = unsave
