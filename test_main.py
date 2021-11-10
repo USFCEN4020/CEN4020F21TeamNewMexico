@@ -23,6 +23,8 @@ table users
 since an user input is needed for testing the -s flag is implemented
 ex:  
 
+
+
 How to test our code:
 > pytest -vv -s .\test_main.py
 > 7 (exit)
