@@ -2,14 +2,14 @@ import prev_page as pv
 import pages as page
 
 #0 is default to go to the previous page
-def user_input(maxInput):
+def user_input(maxInput, bypassPrev = False):
     try:
         my_selection = int(input("\nEnter your selection: "))
         # Convert it into integer
         print("Input is an integer number. Number = ", my_selection)
         if (my_selection <= maxInput and my_selection >= 1):
             return my_selection
-        elif my_selection == 0:
+        elif my_selection == 0 and not bypassPrev:
             return pv.previous()
         else:
             print("\nPlease enter a valid number from 1 to {} ".format(maxInput))
