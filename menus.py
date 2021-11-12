@@ -1,13 +1,13 @@
 import prev_page as pv
 
 #0 is default to go to the previous page
-def user_input(maxInput):
+def user_input(maxInput, bypassPrev = False):
     my_selection = input("\nEnter your selection: ")
     # cast to int
     numSelection = int(my_selection)  # might cause casting error like if my_selection is alpha
-    if numSelection == 0:
+    if numSelection == 0 and not bypassPrev:
         return pv.previous()
-    while not my_selection.isnumeric() or (numSelection > maxInput or numSelection < 1):
+    while not my_selection.isnumeric() or (numSelection > maxInput or numSelection < 1) and not bypassPrev:
         my_selection = input("\nPlease enter a valid selection: ")
         numSelection = int(my_selection)
 
