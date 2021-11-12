@@ -79,11 +79,12 @@ def print_login_menu():
           "\n4. Search for a Friend"
           "\n5. Useful Links"
           "\n6. Important Links"
-          "\n7. Exit")
+          "\n7. Training"
+          "\n8. Exit")
     
     # ****NOTE*******
     # Change this number when we add options
-    optionNum = 7
+    optionNum = 8
     return optionNum
 
 
