@@ -7,8 +7,9 @@ import friends as friend
 import database as db
 import profile as pf
 import messages as msg
+import training as train
 
-# NOTE 
+#Note
 
 # 1) make sure to separate EVERY individual page in a different function
 # 2) Add the new page created to the previous() with the according string and function
@@ -102,11 +103,11 @@ def mainPage():
         print("\nYou have messages in your inbox.")
 
     menu.print_options_menu()
-    selection = menu.user_input(10)
+    selection = menu.user_input(11)
 
     # added code
     # sub_selection = None
-    
+        
     if selection == 1:
         profilePage()
 
@@ -138,6 +139,9 @@ def mainPage():
         importantLinksPage()
 
     elif selection == 10:
+        train.inCollegeLearningPage()
+
+    elif selection == 11:
         homepage()
 
 #_-----friends--------

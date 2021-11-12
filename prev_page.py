@@ -4,6 +4,7 @@ import profile as pf
 import friends as friend
 import messages as mssg
 import registration as reg
+import training as train
 
 def previous():
     # pull up previous
@@ -130,6 +131,12 @@ def previous():
                                    
     elif page.pagesVisited[-1] == "showEveryOne":
         mssg.showEveryOne()
+    
+    elif page.pagesVisited[-1] == "inCollege Learning":
+        train.inCollegeLearningPage()
+
+    # elif page.pagesVisited[-1] == "courses":
+    #     train.inCollegeLearningPage()
     
     
     # elif page.pagesVisited[-1] == "aboutProfile":
