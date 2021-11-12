@@ -9,8 +9,11 @@ def user_input(maxInput, bypassPrev = False):
         print("Input is an integer number. Number = ", my_selection)
         if (my_selection <= maxInput and my_selection >= 1):
             return my_selection
-        elif my_selection == 0 and not bypassPrev:
-            return pv.previous()
+        elif my_selection == 0:
+            if not bypassPrev:
+                return pv.previous()
+            else:
+                return 0
         else:
             print("\nPlease enter a valid number from 1 to {} ".format(maxInput))
             user_input(maxInput)
