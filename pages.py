@@ -81,6 +81,10 @@ def homepage():
         return
 
     elif selection == 7:
+        training()
+        return
+
+    elif selection == 8:
         pass
 
 # ---------------------------------Training option--------------------------------------------------------------
@@ -108,7 +112,7 @@ def training():
             print("Under construction")
         elif selection == 2:
             print("Under construction")
-        elif slection == 3:
+        elif selection == 3:
             print("Under construction")
         elif selection == 4:
             print("Under construction")
