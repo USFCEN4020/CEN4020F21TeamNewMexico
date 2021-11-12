@@ -130,6 +130,8 @@ def previous():
                                    
     elif page.pagesVisited[-1] == "showEveryOne":
         mssg.showEveryOne()
+    elif page.pagesVisited[-1] == "training":
+        page.training()
     
     
     # elif page.pagesVisited[-1] == "aboutProfile":
