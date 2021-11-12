@@ -83,6 +83,56 @@ def homepage():
     elif selection == 7:
         pass
 
+# ---------------------------------Training option--------------------------------------------------------------
+def training():
+    if not pagesVisited:
+        pagesVisited.append("training")
+    elif pagesVisited[-1] != "training":
+        pagesVisited.append("training")
+    print("\n1. Training and Education"
+          "\n2. IHelp Desk"
+          "\n3. Business Analysis and Strategy"
+          "\n4. Security"
+          "\n\nEnter 0 to go back")
+    selection = menu.user_input(4)
+
+    if selection == 1:
+        print("\nTraining and Education\n\n"
+              "\n1. Training in programming"
+              "\n2. Training in engineering"
+              "\n3. Learning mathematics"
+              "\n4. Learning science"
+              "\n\nEnter 0 to go back")
+        Slection = menu.user_input(4)
+        if selection == 1:
+            print("Under construction")
+        elif selection == 2:
+            print("Under construction")
+        elif slection == 3:
+            print("Under construction")
+        elif selection == 4:
+            print("Under construction")
+        elif selection == 0:
+            training()
+    elif selection == 2:
+        print("Coming Soon!")
+    elif selection == 3:
+        print("\nBusiness Analysis and Strateg\n\n"
+              "\n1. How to use In College learnin"
+              "\n2. Train the trainer"
+              "\n3. Gamification of learning"
+              "\nNot seeing what you’re looking for? Sign in to see all 7,609 results. (Enter 4 to login)"
+              "\n\nEnter 0 to go back")
+        selection = menu.user_input(4, True)
+        if selection >= 1 and selection <= 4:
+            reg.login()
+        elif selection == 0:
+            training()
+
+    elif selection == 4:
+        print("Coming Soon!")
+
+
 # ---------------------------------MAINPAGE--------------------------------------------------------------
 def mainPage():
     if not pagesVisited:
