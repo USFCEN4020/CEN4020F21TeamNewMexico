@@ -114,7 +114,7 @@ def training():
         elif selection == 2:
             print("Under construction")
             training()
-        elif slection == 3:
+        elif selection == 3:
             print("Under construction")
             training()
         elif selection == 4:
@@ -654,7 +654,3 @@ def language():
     else:
         my_lang = "Spanish"
         return my_lang
-
-
-
-            
