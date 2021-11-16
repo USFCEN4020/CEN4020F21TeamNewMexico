@@ -7,8 +7,9 @@ import friends as friend
 import database as db
 import profile as pf
 import messages as msg
+import training as train
 
-# NOTE 
+#Note
 
 # 1) make sure to separate EVERY individual page in a different function
 # 2) Add the new page created to the previous() with the according string and function
@@ -80,6 +81,10 @@ def homepage():
         return
 
     elif selection == 7:
+        training()
+        return
+
+    elif selection == 8:
         pass
 
 # ---------------------------------Training option--------------------------------------------------------------
@@ -97,39 +102,51 @@ def training():
 
     if selection == 1:
         print("\nTraining and Education\n\n"
-              "\n1. Training in programming"
-              "\n2. Training in engineering"
-              "\n3. Learning mathematics"
-              "\n4. Learning science"
-              "\n\nEnter 0 to go back")
+                "\n1. Training in programming"
+                "\n2. Training in engineering"
+                "\n3. Learning mathematics"
+                "\n4. Learning science"
+                "\n\nEnter 0 to go back")
         Slection = menu.user_input(4)
         if selection == 1:
             print("Under construction")
+            training()
         elif selection == 2:
             print("Under construction")
-        elif slection == 3:
+            training()
+        elif selection == 3:
             print("Under construction")
+            training()
         elif selection == 4:
             print("Under construction")
+            training()
         elif selection == 0:
             training()
     elif selection == 2:
         print("Coming Soon!")
+        training()
     elif selection == 3:
-        print("\nBusiness Analysis and Strateg\n\n"
-              "\n1. How to use In College learnin"
-              "\n2. Train the trainer"
-              "\n3. Gamification of learning"
-              "\nNot seeing what you’re looking for? Sign in to see all 7,609 results. (Enter 4 to login)"
-              "\n\nEnter 0 to go back")
-        selection = menu.user_input(4, True)
-        if selection >= 1 and selection <= 4:
-            reg.login()
-        elif selection == 0:
-            training()
+        while True:
+            print("\nBusiness Analysis and Strateg\n\n"
+                  "\n1. How to use In College learnin"
+                  "\n2. Train the trainer"
+                  "\n3. Gamification of learning"
+                  "\nNot seeing what you’re looking for? Sign in to see all 7,609 results. (Enter 4 to login)"
+                  "\n\nEnter 0 to go back")
+            selection = menu.user_input(4, True)
+            if selection >= 1 and selection <= 4:
+                reg.login()
+            elif selection == 0:
+                training()
+                break
+            else:
+                print("Invalid Entry!")
+                continue
 
     elif selection == 4:
         print("Coming Soon!")
+        training()
+
 
 # ---------------------------------MAINPAGE--------------------------------------------------------------
 def mainPage():
@@ -151,11 +168,11 @@ def mainPage():
         print("\nYou have messages in your inbox.")
 
     menu.print_options_menu()
-    selection = menu.user_input(10)
+    selection = menu.user_input(11)
 
     # added code
     # sub_selection = None
-    
+        
     if selection == 1:
         profilePage()
 
@@ -187,6 +204,9 @@ def mainPage():
         importantLinksPage()
 
     elif selection == 10:
+        train.inCollegeLearningPage()
+
+    elif selection == 11:
         homepage()
 
 #_-----friends--------
@@ -634,7 +654,3 @@ def language():
     else:
         my_lang = "Spanish"
         return my_lang
-
-
-
-            

@@ -46,3 +46,10 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS applications
 cursor.execute('''CREATE TABLE IF NOT EXISTS messages
                  (sender, recipient, text)''')
 
+# cursor.execute('''CREATE TABLE IF NOT EXISTS courses
+#                  (username, course0 INTEGER DEFAULT 0, course1 INTEGER DEFAULT 0, course2 INTERGER DEFAULT 0, course3 INTEGER DEFAULT 0
+#                  , course4 INTEGER DEFAULT 0)''')
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS courses
+                 (courses INTEGER , username)''')
+                            

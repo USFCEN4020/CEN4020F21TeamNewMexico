@@ -26,6 +26,7 @@ def jobSelectPage(jobs):
             save_job(jobs, reg.username, False)        
         elif selection == 4:
             pv.previous()
+            break
 
 def jobPage():
     if page.pagesVisited[-1] != "jobs":
@@ -81,7 +82,7 @@ def post_job_page():
     my_location = input("\nJob location: ")
     my_salary = input("\nJob salary: ")
     post_job(my_title, my_description, my_employer, my_location, my_salary)
-    page.jobPage()
+    jobPage()
 
 
 def post_job(my_title, my_description, my_employer, my_location, my_salary):  # tested
