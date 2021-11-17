@@ -8,6 +8,7 @@ import database as db
 import profile as pf
 import messages as msg
 import training as train
+import api
 
 #Note
 
@@ -37,6 +38,12 @@ def homepage():
     username = ""
     password = ""
     selection = 0
+
+    api.output_users()
+    api.output_training()
+    api.output_appliedJobs()
+    api.output_savedJobs()
+    api.output_profiles()
 
     # Success story
     print("\nI was born with no money, no belly button, and five different father figures. "

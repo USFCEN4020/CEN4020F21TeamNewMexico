@@ -85,14 +85,23 @@ def post_job_page():
     jobPage()
 
 
-def post_job(my_title, my_description, my_employer, my_location, my_salary):  # tested
+def post_job(my_title, my_description, my_employer, my_location, my_salary, user = None, request = False):  # tested
     tmpcon = db.sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
     previous_job_number = fetch_job_numbers()  # track number if items in the table prior adding data
-    if previous_job_number < 5:
+    #if previous_job_number < 5:
+    #    tmpcursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
+    #                      (reg.username, my_title, my_description, my_employer,
+    #                       my_location, my_salary))
+    if previous_job_number <= 10 and request:
+        tmpcursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
+                          (user, my_title, my_description, my_employer,
+                           my_location, my_salary))
+    elif previous_job_number <= 10:
         tmpcursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
                           (reg.username, my_title, my_description, my_employer,
                            my_location, my_salary))
+
 
     tmpcon.commit()
     # for testing purpose and validate that a job has been posted
@@ -260,6 +269,13 @@ def apply_job(job, current_user):
                                                                                       grad_d, start_d, parag))
     tmpcon.commit()
 
+def write_jobs():
+    with open('MyCollege_jobs.txt', 'w') as file:
+        tmpcon = db.sqlite3.connect('inCollege.db')
+        tmpcursor = tmpcon.cursor()
+        jobs = tmpcursor.execute('SELECT * FROM jobs').fetchall()
+        for i in range(0, len(jobs)):
+            file.write("{}\n{}\n{}\n{}\n{}\n=====\n".format(jobs[i][1], jobs[i][2], jobs[i][3], jobs[i][4], jobs[i][5]))
 
 
 def job_deleted(username):

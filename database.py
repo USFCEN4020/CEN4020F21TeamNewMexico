@@ -5,7 +5,7 @@ cursor = con.cursor()
 
 # Creates table if it was not built before
 cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                (firstName, lastName, username, password, friend)''')
+                (firstName, lastName, username, password, friend)''') #friend stores Plus or Standard 2 or 1
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS skills
                 (username, skills)''')
@@ -53,3 +53,4 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS messages
 cursor.execute('''CREATE TABLE IF NOT EXISTS courses
                  (courses INTEGER , username)''')
                             
+cursor.execute('''CREATE TABLE IF NOT EXISTS coursenames (courses)''')
