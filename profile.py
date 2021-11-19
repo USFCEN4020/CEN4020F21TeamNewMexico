@@ -26,7 +26,7 @@ def aboutProfilePage(uName):
       input ("\nWrite a discription for your profile: ")))
     else: 
       tmpcursor.execute("UPDATE about SET  title = ?, major = ? , university = ?, description = ? where username = ?", 
-      (input("\nTitle of your profile: "),                 input("\nWhat is your Major: ").title(),                     input("\nWhat is your university").title(),
+      (input("\nTitle of your profile: "),                 input("\nWhat is your Major: ").title(),                     input("\nWhat is your university: ").title(),
       input ("\nWrite a discription for your profile"),uName))
     
     tmpcon.commit()
@@ -59,7 +59,7 @@ def experiencePage(uName):
       input("\nTitle of the JOB : "),                   input("\nWho is/was the employer: "),                input("\nDate Started: "),
       input("\nDate ended: "),
       input("\nLocation: "),
-      input ("\nDescribe Your responsibilities ")))
+      input ("\nDescribe Your responsibilities: ")))
     else:
       print ("\nJob History Full (up to 3 jobs)")
 
@@ -145,7 +145,7 @@ def viewProfilePage(uName, view = None):
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
+          "\nResponsibilities: {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
     
     elif row_exp == 2 :    
       print("--------------EXPERIENCE SECTION--------->"
@@ -154,14 +154,14 @@ def viewProfilePage(uName, view = None):
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
+          "\nResponsibilities: {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
       print(
           "\nJOB 2 Title : {}"
           "\nWho is/was the employer: {}"
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[1][1], exp[1][2], exp[1][3], exp[1][4], exp[1][5],exp[1][6]))
+          "\nResponsibilities: {}".format(exp[1][1], exp[1][2], exp[1][3], exp[1][4], exp[1][5],exp[1][6]))
     
     elif row_exp == 3:    
         print("--------------EXPERIENCE SECTION--------->"
@@ -170,21 +170,21 @@ def viewProfilePage(uName, view = None):
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
+          "\nResponsibilities: {}".format(exp[0][1], exp[0][2], exp[0][3], exp[0][4], exp[0][5],exp[0][6]))
         print(
           "\nJOB 2 Title : {}"
           "\nWho is/was the employer: {}"
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[1][1], exp[1][2], exp[1][3], exp[1][4], exp[1][5],exp[1][6]))
+          "\nResponsibilities: {}".format(exp[1][1], exp[1][2], exp[1][3], exp[1][4], exp[1][5],exp[1][6]))
         print(
           "\nJOB 3 Title : {}"
           "\nWho is/was the employer: {}"
           "\nDate Started: {}"
           "\nDate ended: {}"
           "\nLocation: {}"
-          "\nResponsibilities {}".format(exp[2][1], exp[2][2], exp[2][3], exp[2][4], exp[2][5],exp[2][6]))
+          "\nResponsibilities: {}".format(exp[2][1], exp[2][2], exp[2][3], exp[2][4], exp[2][5],exp[2][6]))
     
     tmpcursor.execute("SELECT * FROM education WHERE username = ?", (uName,))
     edu = tmpcursor.fetchone()
@@ -199,7 +199,3 @@ def viewProfilePage(uName, view = None):
 
     pv.previous()
   
-
-    
-    
-    

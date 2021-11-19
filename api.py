@@ -1,10 +1,6 @@
 import os
 import sqlite3
-
-
-#about(username, title, major, university, description)''')
-#experience(username, job_title, employer , date_start, date_finish, location , e_description)''')
-#education(username, school , degree , years)''')                                  
+                              
 def output_profiles():
     #deletes current file with that name
     open('MyCollege_profiles.txt', 'w').close()
@@ -62,26 +58,30 @@ def output_training():
     #creates file again but with new info
     f = open("MyCollege_training.txt","w+")
 
-
+    
     tmpcon = sqlite3.connect('inCollege.db')
     tmpcursor = tmpcon.cursor()
 
-    courses = tmpcursor.execute("SELECT * FROM courses ORDER BY username").fetchall()
+#    courses = tmpcursor.execute("SELECT * FROM courses ORDER BY username").fetchall()
+    coursenames = tmpcursor.execute("SELECT * FROM coursenames").fetchall()
+    users = tmpcursor.execute("SELECT * FROM users").fetchall()
+    
     prev = " "
-    for i in courses:
+    for i in users:
         if i[1] != prev and prev != " ":
-            f.write("=====\n")
+                f.write("=====\n")
+        f.write("%s\n" % (i[2]))
+        courses = tmpcursor.execute("SELECT * FROM courses WHERE username = '{}'".format(i[2])).fetchall()
 
-        f.write("%s\t%s\n" % (i[1], return_course_name(i[0])))
+        for cycle in courses:
+            if(cycle != None and cycle[0] != None):
+                f.write("%s\n" % (coursenames[cycle[0]-1][0]))
         prev = i[1]
 
     tmpcon.close()
     f.close()
 
 
-#jobs(username, title, description, employer, location, salary)
-#app_status(username, title, posted, status)
-#applications(username, title, employer, grad_date, start_date, best_fit)
 def output_appliedJobs():
     #deletes current file with that name
     open('MyCollege_appliedJobs.txt', 'w').close()
@@ -125,7 +125,6 @@ def output_savedJobs():
     for i in users:
         f.write("%s\n" % (i[2]))
 
-        #forloop
         applications = tmpcursor.execute("SELECT * FROM app_status WHERE (username = '{}' AND status = 'saved' COLLATE NOCASE) ORDER BY username".format(i[2])).fetchall()
         for apps in applications:
             f.write("%s\n" % (apps[1]))
@@ -136,16 +135,19 @@ def output_savedJobs():
     f.close()
 
 
-def return_course_name(num):
-    if num == 1:
-        return "How to use In College learning"
-    elif num == 2:
-        return "Train the trainer"
-    elif num == 3:
-        return "Gamification of learning"
-    elif num == 4:
-        return "Understanding the Architectural Design Process"
-    elif num == 5:
-        return "Project Management Simplified"
-    else:
-        return "How to not be dumb"
+#def return_course_name(num):
+#    if num == 1:
+#        return "How to use In College learning"
+#    elif num == 2:
+#        return "Train the trainer"
+#    elif num == 3:
+#        return "Gamification of learning"
+#    elif num == 4:
+#        return "Understanding the Architectural Design Process"
+#    elif num == 5:
+#        return "Project Management Simplified"
+#    else:
+#        return "How to not be dumb"
+
+    #tmpcursor.execute("DELETE FROM coursenames WHERE courses = 'How to fly'")
+    #tmpcon.commit()

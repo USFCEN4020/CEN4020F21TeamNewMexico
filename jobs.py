@@ -3,6 +3,7 @@ import database as db
 import pages as page
 import menus as menu
 import prev_page as pv
+import api
 
 
 # ---------------------------------JOBS-------------------------------------------------------------
@@ -26,11 +27,16 @@ def jobSelectPage(jobs):
             save_job(jobs, reg.username, False)        
         elif selection == 4:
             pv.previous()
-            break
+        break
 
 def jobPage():
     if page.pagesVisited[-1] != "jobs":
         page.pagesVisited.append("jobs")
+    api.output_users()
+    api.output_training()
+    api.output_appliedJobs()
+    api.output_savedJobs()
+    api.output_profiles()
     while(True):
         print("\n1. Post a job"
             "\n2. List all jobs"
@@ -147,7 +153,6 @@ def list_jobs(username):
     selection = menu.user_input(count - 1)
     if (selection == 0):
         return 0
-
     return store_list[selection - 1]
 
 
