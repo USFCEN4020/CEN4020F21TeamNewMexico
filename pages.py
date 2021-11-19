@@ -92,7 +92,8 @@ def homepage():
         return
 
     elif selection == 8:
-        pass
+        exit()
+        #pass
 
 # ---------------------------------Training option--------------------------------------------------------------
 def training():
